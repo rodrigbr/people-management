@@ -11,6 +11,12 @@ using People.Management.Domain.Contracts;
 using People.Management.Infra.Context;
 using People.Management.Infra.Repositories;
 
+var _allowedOriginsDevelopment = new HashSet<string>()
+{
+    "http://localhost:4200",
+    "http://localhost:4200/"
+};
+
 var builder = WebApplication.CreateBuilder(args);
 
 ConfigurationManager configuration = builder.Configuration;
@@ -48,6 +54,29 @@ builder.Services.AddScoped<IRequestHandler<UpdateSchoolRecordCommand, Validation
 builder.Services.AddScoped<IRequestHandler<DeleteSchoolRecordCommand, ValidationResult>, UserCommandHandler>();
 builder.Services.AddScoped<IRequestHandler<DeleteSchoolingCommand, ValidationResult>, UserCommandHandler>();
 
+builder.Services.AddCors(options =>
+{
+    string[] allowedOrigins = new string[_allowedOriginsDevelopment.Count];
+    _allowedOriginsDevelopment.CopyTo(allowedOrigins);
+
+    options.AddPolicy("SiteCorsPolicy", cors =>
+    {
+        cors.AllowAnyHeader();
+        cors.AllowCredentials();
+        cors.AllowAnyMethod();
+        cors.AllowAnyOrigin();
+        cors.WithOrigins("http://localhost:4200").AllowAnyMethod();
+    });
+});
+
+builder.Services.AddCors(options => options.AddPolicy("ApiCorsPolicy", builder =>
+{
+    builder.AllowAnyHeader();
+    builder.AllowCredentials();
+    builder.AllowAnyMethod();
+    builder.AllowAnyOrigin();
+    builder.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader();
+}));
 
 var app = builder.Build();
 
@@ -58,8 +87,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "People.Management.WebApi v1"));
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
+app.UseCors("ApiCorsPolicy");
 app.UseAuthorization();
 
 app.MapControllers();

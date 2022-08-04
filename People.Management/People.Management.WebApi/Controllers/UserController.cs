@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using People.Management.Application.Contracts;
 using People.Management.Framework.DTOs.Schooling;
 using People.Management.Framework.DTOs.SchoolRecord;
@@ -8,6 +9,7 @@ namespace People.Management.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AllowAnonymous]
     public class UserController : ApiController
     {
         private readonly IUserApplicationService _userApplicationService;
