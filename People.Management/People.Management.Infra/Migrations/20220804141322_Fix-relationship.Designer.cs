@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using People.Management.Infra.Context;
 
@@ -11,9 +12,10 @@ using People.Management.Infra.Context;
 namespace People.Management.Infra.Migrations
 {
     [DbContext(typeof(MicroServiceContext))]
-    partial class MicroServiceContextModelSnapshot : ModelSnapshot
+    [Migration("20220804141322_Fix-relationship")]
+    partial class Fixrelationship
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

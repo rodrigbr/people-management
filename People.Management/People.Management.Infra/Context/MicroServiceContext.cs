@@ -12,7 +12,7 @@ namespace People.Management.Infra.Context
         {
         }
 
-        public DbSet<User> Users { get; set; }
+        public DbSet<User?> Users { get; set; }
         public DbSet<Schooling> Schoolings { get; set; }
         public DbSet<SchoolRecord> SchoolRecords { get; set; }
         public DbSet<SchoolingType> SchoolingTypes { get; set; }

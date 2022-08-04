@@ -1,14 +1,11 @@
 ﻿using FluentValidation;
 
-namespace People.Management.Domain.Entites.Validations
+namespace People.Management.Application.Commands.Validations
 {
-    public class UserValidation : AbstractValidator<User>
+    public class CreateUserCommandValidation : AbstractValidator<CreateUserCommand> 
     {
-        public UserValidation()
+        public CreateUserCommandValidation() 
         {
-            RuleFor(c => c.Id)
-                .NotEqual(Guid.Empty);
-
             RuleFor(c => c.FirstName)
                 .NotEmpty().WithMessage("Nome tem que ser preenchido")
                 .Length(0, 100).WithMessage("Tamanho do campo nome excedido");

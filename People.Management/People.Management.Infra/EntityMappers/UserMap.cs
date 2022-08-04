@@ -12,7 +12,6 @@ namespace People.Management.Infra.EntityMappers
         {
             builder.ToTable("User", "u");
             builder.HasKey(x => x.Id);
-            builder.HasIndex(x => x.ReferenceId).IsUnique();
 
             builder.Property(x => x.FirstName).HasMaxLength(100).IsRequired();
             builder.Property(x => x.LastName).HasMaxLength(100).IsRequired();
@@ -35,17 +34,8 @@ namespace People.Management.Infra.EntityMappers
 
             #region RELATIONSHIPS
 
-            builder
-                .HasOne(x => x.Schooling)
-                .WithMany()
-                .HasForeignKey(x => x.SchoolingId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder
-                .HasOne(x => x.SchoolRecord)
-                .WithMany()
-                .HasForeignKey(x => x.SchoolRecordId)
-                .OnDelete(DeleteBehavior.Restrict);
+           
+           
 
             #endregion
         }

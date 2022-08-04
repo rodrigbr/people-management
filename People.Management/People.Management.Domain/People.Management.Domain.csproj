@@ -7,15 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Contracts\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="FluentValidation" Version="11.1.0" />
+    <PackageReference Include="MediatR" Version="10.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\People.Management.Domain.Core\People.Management.Domain.Core.csproj" />
+    <ProjectReference Include="..\People.Management.Framework\People.Management.Framework.csproj" />
   </ItemGroup>
 
 </Project>

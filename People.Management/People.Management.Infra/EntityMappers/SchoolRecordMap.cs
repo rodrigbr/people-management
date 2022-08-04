@@ -10,12 +10,17 @@ namespace People.Management.Infra.EntityMappers
         {
             builder.ToTable("SchoolRecord", "u");
             builder.HasKey(x => x.Id);
-            builder.HasIndex(x => x.ReferenceId).IsUnique();
 
             builder.Property(x => x.Name).HasMaxLength(100).IsRequired();
             builder.Property(x => x.Format).HasMaxLength(100).IsRequired();
 
             builder.Ignore(x => x.ValidationResult);
+
+            builder
+                .HasOne(x => x.User)
+                .WithMany()
+                .HasForeignKey(x => x.Id)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

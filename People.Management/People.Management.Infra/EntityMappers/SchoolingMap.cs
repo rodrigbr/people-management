@@ -10,11 +10,21 @@ namespace People.Management.Infra.EntityMappers
         {
             builder.ToTable("Schooling", "u"); 
             builder.HasKey(x => x.Id);
-            builder.HasIndex(x => x.ReferenceId).IsUnique();
-
-            builder.Property(x => x.Description).HasMaxLength(100).IsRequired();
 
             builder.Ignore(x => x.ValidationResult);
+
+            builder
+                .HasOne(x => x.Description)
+                .WithMany()
+                .HasForeignKey(x => x.SchoolingId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder
+                .HasOne(x => x.User)
+                .WithMany()
+                .HasForeignKey(x => x.Id)
+                .OnDelete(DeleteBehavior.Restrict);
+
         }
     }
 }

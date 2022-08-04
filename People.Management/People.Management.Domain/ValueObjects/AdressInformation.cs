@@ -14,5 +14,15 @@ namespace People.Management.Domain.ValueObjects
         public int? Number { get; private set; }
         public string Uf { get; private set; }
         public string ZipCode { get; private set; }
+
+        public AdressInformation(string adress, string city, string country, int? number, string uf, string zipCode)
+        {
+            Adress = adress;
+            City = city;
+            Country = country;
+            Number = number;
+            Uf = uf;
+            ZipCode = zipCode;
+        }
     }
 }
