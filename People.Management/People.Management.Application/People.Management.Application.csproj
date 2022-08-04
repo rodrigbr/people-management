@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\People.Management.Domain\People.Management.Domain.csproj" />
+    <ProjectReference Include="..\People.Management.Framework\People.Management.Framework.csproj" />
+    <ProjectReference Include="..\People.Management.Infra\People.Management.Infra.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Contracts\" />
+    <Folder Include="Handlers\" />
+    <Folder Include="Commands\" />
+    <Folder Include="Implementations\" />
+    <Folder Include="Query\" />
+  </ItemGroup>
+
+</Project>
