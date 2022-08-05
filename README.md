@@ -7,6 +7,7 @@
 
 #Backend: 
 - .NET 6
+- SQL Server (Azure Serverless)
 - EF Core 6.0.7
 - Dapper 2.0.123
 - FluentValidation 11.1.0
