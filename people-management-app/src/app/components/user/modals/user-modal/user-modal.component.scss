@@ -2,7 +2,6 @@
   padding: 30px;
 
   .content-user-content {
-
     .create-page-header {
       display: flex;
       justify-content: space-between;
@@ -19,7 +18,6 @@
     }
 
     .modal-body {
-
       .form-group {
         display: flex;
         flex-direction: column;
@@ -43,25 +41,23 @@
         .form-control {
           max-width: 400px;
         }
-        
+
         .form-control,
         .form-select {
-
           &.invalid,
           .is-invalid {
             box-shadow: none !important;
+            border-color: red;
           }
 
           &.is-invalid {
             box-shadow: none !important;
           }
 
-
           &:focus {
             box-shadow: none !important;
           }
         }
-
 
         .form-select {
           max-width: 395px;
@@ -82,6 +78,14 @@
   }
 }
 
+.erro {
+  color: red;
+}
+.is-invalid {
+  box-shadow: none !important;
+  border-color: red;
+}
+
 ::ng-deep {
   .modal-dialog {
     max-width: 900px !important;
@@ -89,7 +93,7 @@
 
   @media (max-width: 905px) {
     .modal-dialog {
-    max-width: 492px !important;
+      max-width: 492px !important;
     }
   }
 }
@@ -98,7 +102,6 @@
   .content-user-modal {
     .content-user-content {
       .modal-body {
-
         .inputs,
         .checkbox {
           flex-wrap: wrap;

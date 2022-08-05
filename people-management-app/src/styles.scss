@@ -2,3 +2,19 @@
 mat-icon {
     cursor: pointer;
 }
+
+.form-control {
+    &.invalid,
+    .is-invalid {
+        box-shadow: none !important;
+        border-color: red;
+    }
+
+    &.is-invalid {
+        box-shadow: none !important;
+    }
+
+    &:focus {
+        box-shadow: none !important;
+    }
+}

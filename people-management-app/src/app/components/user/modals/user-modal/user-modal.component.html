@@ -6,48 +6,44 @@
         <i class="bi bi-x btn-close-modal"></i>
       </div>
       <div class="modal-body">
-        {{user?.id}}
-        <!-- <div class="form-group" [formGroup]="form">
-            <div class="inputs">
-              <input type="text" formControlName="name" class="form-control"
-                [ngClass]="validationsFormService.applyCssErro(form, 'name')" placeholder="Nome" />
-              <input type="text" formControlName="email" class="form-control"
-                [ngClass]="validationsFormService.applyCssErro(form, 'email')" placeholder="E-mail" />
-            </div>
-            <div class="inputs">
-              <input type="text" formControlName="vehicle" class="form-control"
-                [ngClass]="validationsFormService.applyCssErro(form, 'vehicle')" placeholder="Veículo" />
-              <select class="form-select" placeholder=" " formControlName="typeVehicleId"
-                [ngClass]="validationsFormService.applyCssErro(form, 'typeVehicleId')">
-                <option *ngFor="let typeVehicle of typeVehicleStatic.GetAll()" [value]="typeVehicle.id">
-                  {{typeVehicle.name}}
-                </option>
-              </select>
-            </div>
-            <div class="inputs">
-              <select class="form-select" placeholder="" formControlName="regionId"
-                [ngClass]="validationsFormService.applyCssErro(form, 'regionId')">
-                <option *ngFor="let journalistUf of journalistUfStatic.GetAll()" [value]="journalistUf.id">
-                  {{journalistUf.uf}} - {{journalistUf.name}}
-                </option>
-              </select>
-            </div>
-            <div class="checkbox">
-              <div class="checks">
-                <label>Autorizado?</label>
-                <input type="checkbox" formControlName="authorized" />
-              </div>
-              <div class="checks">
-                <label>Bloqueado?</label>
-                <input type="checkbox" formControlName="blocked" />
-              </div>
-              <div class="checks">
-                <label>Importado?</label>
-                <input type="checkbox" formControlName="imported" />
-              </div>
-            </div>
-          </div> -->
+        <div class="form-group" [formGroup]="formUser">
+          <div class="inputs">
+            <input type="text" formControlName="firstName" class="form-control"
+              [ngClass]="validationsFormService.applyCssErro(formUser, 'firstName')" placeholder="Nome" />
+            <input type="text" formControlName="lastName" class="form-control"
+              [ngClass]="validationsFormService.applyCssErro(formUser, 'lastName')" placeholder="Sobrenome" />
+          </div>
+          <div class="inputs">
+            <input type="text" formControlName="email" class="form-control"
+              [ngClass]="validationsFormService.applyCssErro(formUser, 'email')" placeholder="E-mail" />
+
+            <input [matDatepicker]="basicDatepicker" formControlName="birthDate">
+            <mat-datepicker-toggle [for]="basicDatepicker"></mat-datepicker-toggle>
+            <mat-datepicker #basicDatepicker></mat-datepicker>
+          </div>
+          <div class="inputs">
+            <input type="text" formControlName="adress" class="form-control"
+              [ngClass]="validationsFormService.applyCssErro(formUser, 'adress')" placeholder="Rua" />
+            <input type="text" formControlName="number" class="form-control"
+              [ngClass]="validationsFormService.applyCssErro(formUser, 'number')" placeholder="Número" />
+          </div>
+          <div class="inputs">
+            <input type="text" formControlName="city" class="form-control"
+              [ngClass]="validationsFormService.applyCssErro(formUser, 'city')" placeholder="Cidade" />
+            <input type="text" formControlName="uf" class="form-control"
+              [ngClass]="validationsFormService.applyCssErro(formUser, 'uf')" placeholder="UF" />
+          </div>
+          <div class="inputs">
+            <input type="text" formControlName="country" class="form-control"
+              [ngClass]="validationsFormService.applyCssErro(formUser, 'country')" placeholder="Pais" />
+            <input type="text" formControlName="zipCode" class="form-control"
+              [ngClass]="validationsFormService.applyCssErro(formUser, 'zipCode')" placeholder="CEP" />
+          </div>
+        </div>
         <div class="footer-container">
+          <div *ngFor="let erro of errors">
+            <span class="erro">{{erro}}</span>
+          </div>
           <button class="btn btn-orange" (click)="save()">Salvar</button>
         </div>
       </div>

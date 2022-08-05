@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -22,6 +22,16 @@ import { CEPPipe } from './pipes/cep.pipe';
 import { UserModalComponent } from './components/user/modals/user-modal/user-modal.component';
 import { UserSchoolRecordModalComponent } from './components/user/modals/user-school-record-modal/user-school-record-modal.component';
 import { UserSchoolingModalComponent } from './components/user/modals/user-schooling-modal/user-schooling-modal.component';
+import { ValidationsFormService } from './components/user/services/validations-form.service';
+import { CalendarModule } from 'primeng/calendar';
+import localePt from '@angular/common/locales/pt';
+import { registerLocaleData } from '@angular/common';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatNativeDateModule} from '@angular/material/core';
+import {MatPaginatorModule} from '@angular/material/paginator';
+
+registerLocaleData(localePt);
 
 @NgModule({
   declarations: [
@@ -39,23 +49,30 @@ import { UserSchoolingModalComponent } from './components/user/modals/user-schoo
     BrowserModule,
     AppRoutingModule,
     MatToolbarModule,
+    CalendarModule,
     CommonModule,
     NgbModule,
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
     MatIconModule,
+    MatFormFieldModule,
     MatMenuModule,
     RouterModule,
     MatTableModule,
+    MatNativeDateModule,
+    MatDatepickerModule,
+    MatPaginatorModule,
     HttpClientModule,
     NgxMaskModule.forRoot({
       dropSpecialCharacters: true, // ao salvar, não vai manter a mascara
     }),
   ],
   providers: [
+    { provide: LOCALE_ID, useValue: 'pt-BR' },
     UserResolver,
-    DatePipe
+    DatePipe,
+    ValidationsFormService
   ],
   bootstrap: [AppComponent]
 })

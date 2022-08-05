@@ -1,10 +1,10 @@
 import { Component, OnInit, Output, ViewChild, EventEmitter, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { takeUntil } from 'rxjs/operators';
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { SubscriptionCancel } from 'src/app/subsctiption-cancel';
 import { UserService } from '../../services/user.service';
 import { UserRead } from '../../models/user-read.model';
+import { ValidationsFormService } from '../../services/validations-form.service';
 
 @Component({
   selector: 'app-user-school-record-modal',
@@ -14,55 +14,42 @@ import { UserRead } from '../../models/user-read.model';
 export class UserSchoolRecordModalComponent extends SubscriptionCancel implements OnInit {
 
   @Input() user: UserRead;
+  @Output() userSaved = new EventEmitter();
 
-  public form: FormGroup;
+  public formSchoolRecord: FormGroup;
   public errorMessage: string;
 
-constructor(private service: UserService,
+  constructor(private service: UserService,
     private formBuilder: FormBuilder,
-    private modalService: NgbModal,
-    // public validationsFormService: ValidationsFormService
-    ) { super() }
+    public validationsFormService: ValidationsFormService
+  ) { super() }
 
   ngOnInit(): void {
+    this.enableForm();
   }
 
-  // private enableForm() {
-  //   this.form = this.formBuilder.group({
-  //     id:[this.journalist != null ? this.journalist.id : null],
-  //     name:[this.journalist != null ? this.journalist.name : '', { validators: [Validators.required, Validators.maxLength(64)] }],
-  //     email: [this.journalist != null ? this.journalist.email : '', { validators: [Validators.required, Validators.maxLength(128)] }],
-  //     vehicle: [this.journalist != null ? this.journalist.vehicle : '', { validators: [Validators.required, Validators.maxLength(128)] }],
-  //     authorized: [this.journalist != null ? this.journalist.authorized : false, { validators: [Validators.required] }],
-  //     blocked: [this.journalist != null ? this.journalist.blocked : false, { validators: [Validators.required] }],
-  //     imported: [this.journalist != null ? this.journalist.imported : false, { validators: [Validators.required] }],
-  //     typeVehicleId: [this.journalist != null ? this.journalist.typeVehicleId : null],
-  //     regionId: [this.journalist != null ? this.journalist.regionId : null]
-  //   });
-  // }
+  private enableForm() {
+    this.formSchoolRecord = this.formBuilder.group({
+      id: [this.user != null ? this.user.schoolRecordId : null],
+      userId: [this.user != null ? this.user.id : null, { validators: [Validators.required] }],
+      format: [this.user != null ? this.user.schoolRecordFormat : '', { validators: [Validators.required, Validators.maxLength(100)] }],
+      name: [this.user != null ? this.user.schoolRecordName : '', { validators: [Validators.required, Validators.maxLength(100)] }]
+    });
+  }
 
   save() {
-    if (this.form.valid) {
-      if (this.form.controls['id'].value) {
-        // this.service.updateUser(this.form.value).pipe(takeUntil(this.destroy$)).subscribe((data) => {
-        //   if (data) {
-        //     this.journalistSaved.emit();
-        //     this.close();
-        //   }
-        // }, (error) => {
-        //   this.errorMessage = error.message;
-        // });
-      } else {
-        this.form.controls['id'].setValue(undefined);
-        // this.service.saveUser(this.form.value).pipe(takeUntil(this.destroy$)).subscribe((data) => {
-        //   if (data) {
-        //     this.journalistSaved.emit();
-        //     this.close();
-        //   }
-        // }, (error) => {
-        //   this.errorMessage = error.message;
-        // });
+    if (this.formSchoolRecord.valid) {
+      if (!this.formSchoolRecord.controls['id'].value) {
+        this.formSchoolRecord.controls['id'].setValue(undefined);
       }
+
+      this.service.addSchoolRecordUser(this.formSchoolRecord.value).pipe(takeUntil(this.destroy$)).subscribe((data) => {
+        if (data) {
+          this.userSaved.emit();
+        }
+      }, (error) => {
+        this.errorMessage = error.message;
+      });
     }
   }
 }

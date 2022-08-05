@@ -1,5 +1,6 @@
 export class UserRead {
   id: string;
+  referenceId: number;
   firstName: string;
   lastName: string;
   email: string;

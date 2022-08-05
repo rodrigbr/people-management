@@ -1,10 +1,13 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Component, Input, OnInit } from '@angular/core';
+import { PageEvent } from '@angular/material/paginator';
+import { takeUntil } from 'rxjs';
 import { SubscriptionCancel } from 'src/app/subsctiption-cancel';
 import Swal from 'sweetalert2';
+import { UserQuery } from './models/user-query.model';
 import { UserRead } from './models/user-read.model';
-import { UserWrite } from './models/user-write.model';
+import { UserService } from './services/user.service';
+import jspdf from 'jspdf';
+import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-user',
@@ -14,39 +17,76 @@ import { UserWrite } from './models/user-write.model';
 
 export class UserComponent extends SubscriptionCancel implements OnInit {
 
-  public displayedColumns: string[] = ['id', 'firstName', 'lastName', 'email', 'birthDate', 'adress', 'city', 'uf', 'number', 'country', 'zipCode', 'schoolingTypeName', 'schoolRecordFormat', 'schoolRecordName', 'edit', 'remove'];
+  public displayedColumns: string[] = ['id', 'refId', 'firstName', 'lastName', 'email', 'birthDate', 'adress', 'city', 'uf', 'number', 'country', 'zipCode', 'schoolingTypeName', 'schoolRecordFormat', 'schoolRecordName', 'edit', 'remove'];
 
-  @ViewChild('userModal', { static: true }) userModal: any;
   @Input() users: UserRead[];
 
   public showUserModal: boolean = false;
   public showSchollingModal: boolean = false;
   public showSchoolRecordModal: boolean = false;
   public userModalData: UserRead;
+  public userQuery = new UserQuery();
+  public errorMessage: string;
+
+  // MatPaginator Inputs
+  length = 100;
+  pageSize = 10;
+  pageSizeOptions: number[] = [5, 10, 25, 100];
+
+  // MatPaginator Output
+  pageEvent: PageEvent;
 
   constructor(
-    private modalService: NgbModal,
+    private service: UserService
   ) {
     super();
   }
 
   ngOnInit() {
-
+    this.resetPagination();
   }
 
-  toggle(){
+  resetPagination() {
+    this.userQuery.pageIndex = 1;
+    this.userQuery.pageSize = 10;
+  }
+
+  handlePageEvent(event: PageEvent) {
+    this.length = event.length;
+    this.userQuery.pageSize = event.pageSize;
+    this.userQuery.pageIndex = event.pageIndex;
+    this.getList();
+  }
+
+  getRenewList() {
+    this.toggle();
+    this.resetPagination();
+    this.getList();
+  }
+
+  getList() {
+    this.service.getList(this.userQuery).pipe(takeUntil(this.destroy$)).subscribe((data) => {
+      if (data) {
+        this.users = data;
+      }
+    }, (error) => {
+      this.errorMessage = error.message;
+    });
+  }
+
+  toggle() {
     this.showUserModal = false;
     this.showSchollingModal = false;
     this.showSchoolRecordModal = false;
     this.userModalData = null;
   }
 
-  showAddUser(user?: UserRead){
+  showAddUser(user?: UserRead) {
     this.userModalData = user;
     this.showUserModal = !this.showUserModal;
   }
 
-  removeUser(){
+  removeUser(user: UserRead) {
     Swal.fire({
       title: 'Exclusão de usuário !',
       text: "Tem certeza que deseja excluir este usuário ?",
@@ -61,17 +101,23 @@ export class UserComponent extends SubscriptionCancel implements OnInit {
       }
     }).then((result) => {
       if (result.isConfirmed) {
-
+        this.service.deleteUser(user.id).pipe(takeUntil(this.destroy$)).subscribe((data) => {
+          if (data) {
+            this.getRenewList();
+          }
+        }, (error) => {
+          this.errorMessage = error.message;
+        });
       }
     });
   }
 
-  showAddSchooling(user?: UserRead){
+  showAddSchooling(user?: UserRead) {
     this.userModalData = user;
     this.showSchollingModal = !this.showSchollingModal;
   }
 
-  removeSchooling(){
+  removeSchooling(user: UserRead) {
     Swal.fire({
       title: 'Remoção da escolaridade !',
       text: "Tem certeza que deseja remover a escolaridade deste usuário ?",
@@ -86,17 +132,23 @@ export class UserComponent extends SubscriptionCancel implements OnInit {
       }
     }).then((result) => {
       if (result.isConfirmed) {
-
+        this.service.removeSchoolingUser(user.id).pipe(takeUntil(this.destroy$)).subscribe((data) => {
+          if (data) {
+            this.getRenewList();
+          }
+        }, (error) => {
+          this.errorMessage = error.message;
+        });
       }
     });
   }
 
-  showAddSchoolRecord(user?: UserRead){
+  showAddSchoolRecord(user?: UserRead) {
     this.userModalData = user;
     this.showSchoolRecordModal = !this.showSchoolRecordModal;
   }
 
-  removeSchoolRecord(){
+  removeSchoolRecord(user: UserRead) {
     Swal.fire({
       title: 'Remoção do histórico !',
       text: "Tem certeza que deseja remover o historico deste usuário ?",
@@ -111,8 +163,34 @@ export class UserComponent extends SubscriptionCancel implements OnInit {
       }
     }).then((result) => {
       if (result.isConfirmed) {
-
+        this.service.removeSchoolRecordUser(user.id).pipe(takeUntil(this.destroy$)).subscribe((data) => {
+          if (data) {
+            this.getRenewList();
+          }
+        }, (error) => {
+          this.errorMessage = error.message;
+        });
       }
     });
+  }
+
+  public captureScreen() {
+    const contentPage1 = document.getElementById('contentPage1');
+
+    let pdf = new jspdf('l', 'mm', 'a4');
+    const position = 0;
+    const scale = 2;
+    const quality = 3.0;
+    const margin = 0;
+    const imgWidth = 320;
+    const imgHeight = 200
+    ;
+
+    html2canvas(contentPage1, { allowTaint: true, scale: scale }).then(canvas => {
+      const contentDataURLPage1 = canvas.toDataURL('image/jpeg', quality);
+      pdf.addImage(contentDataURLPage1, 'JPG', margin, position, imgWidth, imgHeight);
+      pdf.save("a4.pdf");
+    });
+
   }
 }
