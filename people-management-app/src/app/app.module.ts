@@ -19,6 +19,9 @@ import { MatTableModule } from '@angular/material/table';
 import { UserResolver } from './components/user/guards/user.resolver';
 import { HttpClientModule } from '@angular/common/http';
 import { CEPPipe } from './pipes/cep.pipe';
+import { UserModalComponent } from './components/user/modals/user-modal/user-modal.component';
+import { UserSchoolRecordModalComponent } from './components/user/modals/user-school-record-modal/user-school-record-modal.component';
+import { UserSchoolingModalComponent } from './components/user/modals/user-schooling-modal/user-schooling-modal.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +31,9 @@ import { CEPPipe } from './pipes/cep.pipe';
     NavComponent,
     UserComponent,
     CEPPipe,
+    UserModalComponent,
+    UserSchoolRecordModalComponent,
+    UserSchoolingModalComponent
   ],
   imports: [
     BrowserModule,

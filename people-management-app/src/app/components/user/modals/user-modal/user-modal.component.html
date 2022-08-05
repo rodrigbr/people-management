@@ -1,0 +1,56 @@
+<div id="content-user-container" class="content-user-container">
+  <div class="content-user-modal">
+    <div class="content-user-content">
+      <div class="create-page-header">
+        <h1>Adicionando um novo usuário</h1>
+        <i class="bi bi-x btn-close-modal"></i>
+      </div>
+      <div class="modal-body">
+        {{user?.id}}
+        <!-- <div class="form-group" [formGroup]="form">
+            <div class="inputs">
+              <input type="text" formControlName="name" class="form-control"
+                [ngClass]="validationsFormService.applyCssErro(form, 'name')" placeholder="Nome" />
+              <input type="text" formControlName="email" class="form-control"
+                [ngClass]="validationsFormService.applyCssErro(form, 'email')" placeholder="E-mail" />
+            </div>
+            <div class="inputs">
+              <input type="text" formControlName="vehicle" class="form-control"
+                [ngClass]="validationsFormService.applyCssErro(form, 'vehicle')" placeholder="Veículo" />
+              <select class="form-select" placeholder=" " formControlName="typeVehicleId"
+                [ngClass]="validationsFormService.applyCssErro(form, 'typeVehicleId')">
+                <option *ngFor="let typeVehicle of typeVehicleStatic.GetAll()" [value]="typeVehicle.id">
+                  {{typeVehicle.name}}
+                </option>
+              </select>
+            </div>
+            <div class="inputs">
+              <select class="form-select" placeholder="" formControlName="regionId"
+                [ngClass]="validationsFormService.applyCssErro(form, 'regionId')">
+                <option *ngFor="let journalistUf of journalistUfStatic.GetAll()" [value]="journalistUf.id">
+                  {{journalistUf.uf}} - {{journalistUf.name}}
+                </option>
+              </select>
+            </div>
+            <div class="checkbox">
+              <div class="checks">
+                <label>Autorizado?</label>
+                <input type="checkbox" formControlName="authorized" />
+              </div>
+              <div class="checks">
+                <label>Bloqueado?</label>
+                <input type="checkbox" formControlName="blocked" />
+              </div>
+              <div class="checks">
+                <label>Importado?</label>
+                <input type="checkbox" formControlName="imported" />
+              </div>
+            </div>
+          </div> -->
+        <div class="footer-container">
+          <button class="btn btn-orange" (click)="save()">Salvar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

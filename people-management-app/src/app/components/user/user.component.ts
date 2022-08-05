@@ -1,27 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SubscriptionCancel } from 'src/app/subsctiption-cancel';
+import Swal from 'sweetalert2';
 import { UserRead } from './models/user-read.model';
-
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
-  { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He' },
-  { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li' },
-  { position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be' },
-  { position: 5, name: 'Boron', weight: 10.811, symbol: 'B' },
-  { position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C' },
-  { position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N' },
-  { position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O' },
-  { position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F' },
-  { position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne' },
-];
+import { UserWrite } from './models/user-write.model';
 
 @Component({
   selector: 'app-user',
@@ -33,10 +16,16 @@ export class UserComponent extends SubscriptionCancel implements OnInit {
 
   public displayedColumns: string[] = ['id', 'firstName', 'lastName', 'email', 'birthDate', 'adress', 'city', 'uf', 'number', 'country', 'zipCode', 'schoolingTypeName', 'schoolRecordFormat', 'schoolRecordName', 'edit', 'remove'];
 
+  @ViewChild('userModal', { static: true }) userModal: any;
   @Input() users: UserRead[];
 
+  public showUserModal: boolean = false;
+  public showSchollingModal: boolean = false;
+  public showSchoolRecordModal: boolean = false;
+  public userModalData: UserRead;
+
   constructor(
-    private activatedRoute: ActivatedRoute,
+    private modalService: NgbModal,
   ) {
     super();
   }
@@ -45,31 +34,85 @@ export class UserComponent extends SubscriptionCancel implements OnInit {
 
   }
 
-  addUser(){
-    console.log("addUser");
+  toggle(){
+    this.showUserModal = false;
+    this.showSchollingModal = false;
+    this.showSchoolRecordModal = false;
+    this.userModalData = null;
   }
 
-  editUser(){
-    console.log("editUser");
+  showAddUser(user?: UserRead){
+    this.userModalData = user;
+    this.showUserModal = !this.showUserModal;
   }
 
   removeUser(){
-    console.log("removeUser");
+    Swal.fire({
+      title: 'Exclusão de usuário !',
+      text: "Tem certeza que deseja excluir este usuário ?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#FF0000',
+      cancelButtonColor: '#6c757d',
+      confirmButtonText: 'Excluir',
+      cancelButtonText: 'Cancelar',
+      customClass: {
+        confirmButton: "swal2-confirm"
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+      }
+    });
   }
 
-  addSchooling(){
-    console.log("addSchooling");
+  showAddSchooling(user?: UserRead){
+    this.userModalData = user;
+    this.showSchollingModal = !this.showSchollingModal;
   }
 
   removeSchooling(){
-    console.log("removeSchooling");
+    Swal.fire({
+      title: 'Remoção da escolaridade !',
+      text: "Tem certeza que deseja remover a escolaridade deste usuário ?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#ff4c06',
+      cancelButtonColor: '#6c757d',
+      confirmButtonText: 'Remover',
+      cancelButtonText: 'Cancelar',
+      customClass: {
+        confirmButton: "swal2-confirm"
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+      }
+    });
   }
 
-  addSchoolRecord(){
-    console.log("addSchoolRecord");
+  showAddSchoolRecord(user?: UserRead){
+    this.userModalData = user;
+    this.showSchoolRecordModal = !this.showSchoolRecordModal;
   }
 
   removeSchoolRecord(){
-    console.log("removeSchoolRecord");
+    Swal.fire({
+      title: 'Remoção do histórico !',
+      text: "Tem certeza que deseja remover o historico deste usuário ?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#ff4c06',
+      cancelButtonColor: '#6c757d',
+      confirmButtonText: 'Remover',
+      cancelButtonText: 'Cancelar',
+      customClass: {
+        confirmButton: "swal2-confirm"
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+      }
+    });
   }
 }

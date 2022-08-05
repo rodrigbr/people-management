@@ -1,0 +1,109 @@
+.content-user-modal {
+  padding: 30px;
+
+  .content-user-content {
+
+    .create-page-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+
+      h1 {
+        font-size: 24px;
+      }
+
+      i {
+        font-size: 30px;
+        cursor: pointer;
+      }
+    }
+
+    .modal-body {
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        .inputs,
+        .checkbox {
+          display: flex;
+          gap: 20px;
+          //flex-wrap: wrap;
+        }
+
+        .checkbox {
+          .checks {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+          }
+        }
+
+        .form-control {
+          max-width: 400px;
+        }
+        
+        .form-control,
+        .form-select {
+
+          &.invalid,
+          .is-invalid {
+            box-shadow: none !important;
+          }
+
+          &.is-invalid {
+            box-shadow: none !important;
+          }
+
+
+          &:focus {
+            box-shadow: none !important;
+          }
+        }
+
+
+        .form-select {
+          max-width: 395px;
+        }
+      }
+
+      .footer-container {
+        margin: 20px;
+        float: right;
+
+        .btn {
+          padding: 4px 25px;
+          font-size: 16px;
+          border-radius: 1.25rem;
+        }
+      }
+    }
+  }
+}
+
+::ng-deep {
+  .modal-dialog {
+    max-width: 900px !important;
+  }
+
+  @media (max-width: 905px) {
+    .modal-dialog {
+    max-width: 492px !important;
+    }
+  }
+}
+
+@media (max-width: 905px) {
+  .content-user-modal {
+    .content-user-content {
+      .modal-body {
+
+        .inputs,
+        .checkbox {
+          flex-wrap: wrap;
+        }
+      }
+    }
+  }
+}
