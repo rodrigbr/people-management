@@ -39,9 +39,7 @@ namespace People.Management.Application.Implementations
 
         public async Task<List<UserReadDTO>> GetList(UserQueryDTO dto)
         {
-            int pageIndex = (dto.PageIndex - 1) * dto.PageSize;
-            int pageSize = dto.PageSize;
-            var result = await _userDapperRespository.GetList(pageIndex, pageSize);
+            var result = await _userDapperRespository.GetList(dto.PageIndex, dto.PageSize);
             return result.ToList();
         }
 

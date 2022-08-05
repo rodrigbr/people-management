@@ -6,5 +6,6 @@ namespace People.Management.Domain.Contracts
     {
         Task<User?> GetByIdWithSchooling(Guid id);
         Task<User?> GetByIdWithSchoolRecord(Guid id);
+        Task<User?> GetByIdWithSchoolRecordAndSchooling(Guid id);
     }
 }

@@ -11,6 +11,7 @@ namespace People.Management.Framework.DTOs.User
     public class UserReadDTO
     {
         public Guid Id { get; set; }
+        public int ReferenceId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }

@@ -31,7 +31,7 @@ namespace People.Management.WebApi.Controllers
             return CustomResponse(await _userApplicationService.Update(dto));
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("Delete/{id}")]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
             return CustomResponse(await _userApplicationService.Delete(id));

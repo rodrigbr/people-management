@@ -24,5 +24,13 @@ namespace People.Management.Infra.Repositories
                 .Include(x => x.SchoolRecord)
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
+
+        public Task<User?> GetByIdWithSchoolRecordAndSchooling(Guid id)
+        {
+            return _context.Users
+                .Include(x => x.SchoolRecord)
+                .Include(x => x.Schooling)
+                .FirstOrDefaultAsync(x => x.Id == id);
+        }
     }
 }

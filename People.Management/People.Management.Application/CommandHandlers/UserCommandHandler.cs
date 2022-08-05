@@ -43,10 +43,8 @@ namespace People.Management.Application.CommandHandlers
                 request.City, request.Country, request.Number, request.Uf, request.ZipCode);
 
             if (user.IsValid())
-            {
                 _userRepository.Update(user);
-            }
-
+            
             return await Task.FromResult(user.ValidationResult);
         }
 
@@ -55,13 +53,19 @@ namespace People.Management.Application.CommandHandlers
             if (!request.IsValid())
                 return request.ValidationResult;
 
-            User user = _userRepository.GetById(request.Id);
+            User? user = await _userRepository.GetByIdWithSchoolRecordAndSchooling(request.Id);
 
             if (user == null)
             {
                 request.AddValidationError("Delete", "Usuário não foi encontrado!");
                 return request.ValidationResult;
             }
+
+            if (user.SchoolRecordId != null)
+                _schoolRecordRepository.Remove(user.SchoolRecord);
+
+            if (user.SchoolingId != null)
+                _schoolingRepository.Remove(user.Schooling);
 
             _userRepository.Remove(user);
 
@@ -77,9 +81,7 @@ namespace People.Management.Application.CommandHandlers
                 request.City, request.Country, request.Number, request.Uf, request.ZipCode);
 
             if (user.IsValid())
-            {
                 _userRepository.Add(user);
-            }
 
             return await Task.FromResult(user.ValidationResult);
         }
@@ -95,16 +97,13 @@ namespace People.Management.Application.CommandHandlers
             }
 
             if (user.SchoolingId != null)
-            {
                 _schoolingRepository.Remove(user.Schooling);
-            }
 
             user.AddSchooling(request.SchoolingId);
 
             if (user.IsValid())
-            {
                 _userRepository.Update(user);
-            }
+
 
             return await Task.FromResult(user.ValidationResult);
         }
@@ -120,17 +119,13 @@ namespace People.Management.Application.CommandHandlers
             }
 
             if (user.SchoolRecordId != null)
-            {
                 _schoolRecordRepository.Remove(user.SchoolRecord);
-            }
-
+            
             user.AddSchoolRecord(request.Format, request.Name);
 
             if (user.IsValid())
-            {
                 _userRepository.Update(user);
-            }
-
+            
             return await Task.FromResult(user.ValidationResult);
         }
 
@@ -147,10 +142,8 @@ namespace People.Management.Application.CommandHandlers
             _schoolingRepository.Remove(user.Schooling);
 
             if (user.IsValid())
-            {
                 _userRepository.Update(user);
-            }
-
+            
             return await Task.FromResult(user.ValidationResult);
         }
 
@@ -165,12 +158,10 @@ namespace People.Management.Application.CommandHandlers
             }
 
             _schoolRecordRepository.Remove(user.SchoolRecord);
-            
-            if (user.IsValid())
-            {
-                _userRepository.Update(user);
-            }
 
+            if (user.IsValid())
+                _userRepository.Update(user);
+            
             return await Task.FromResult(user.ValidationResult);
         }
     }
